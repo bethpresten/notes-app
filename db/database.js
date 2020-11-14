@@ -1,0 +1,2 @@
+// manufacturer file, talks to the route (route is the target), html is the customer, server is the car/allows the customer to get to the route which is the target/target is the distributor (database.js)
+// add it, delete it, or show it if we want to see it
