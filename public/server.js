@@ -1,7 +1,8 @@
 // 1. Require Express
 const express = require("express");
 const path = require("path");
-const fs = require("fs")
+const fs = require("fs");
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "/public/index.html"));
 });
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "/public/notes.html"));
+});
 
 // API ROUTES
 app.get("/api/config", (req, res) => {
@@ -23,12 +27,14 @@ app.get("/api/config", (req, res) => {
 });
 
 app.get("/api/notes", (req, res) => {
-    res.json(note);
+    res.json({
+        notes: newNote,
+    });
 });
 
-app.get("/api/*", (req, res) => {
-    res.json(note);
-});
+// app.get("/api/*", (req, res) => {
+//     res.json(note);
+// });
 
 // app.get("/api/notes/:name", (req, res) => {
 //     for (let i = 0; i < notes.length; i++) {
