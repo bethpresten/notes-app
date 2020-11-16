@@ -2,9 +2,16 @@
 
 // buyer, middleman, seller
 const express = require("express");
-var app = express();
-// const PORT = process.env.PORT || 8080;
+const app = express();
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
+const notes = [];
 
+fs.readFile("../../db/db.json", 'utf8', (err, data) => {
+    if (err) throw (err);
+    const notes = JSON.parse(data);
+    console.log(data);
+})
 
 module.exports = function (app) {
     // API ROUTES/
@@ -15,29 +22,27 @@ module.exports = function (app) {
     });
 
     app.get("/api/notes", (req, res) => {
-        // res.json({
-        //     notes: note,
-        // });
-    });
-
-    app.get("/api/*", (req, res) => {
-        // res.json(note);
-    });
-
-    app.get("/api/notes/:name", (req, res) => {
-        // for (let i = 0; i < notes.length; i++) {
-        //     if (notes[i].name === req.params.name) {
-        //         return res.json(notes[i]);
-        //     }
-        // }
+        res.send(notes);
     });
 
     app.post("/api/notes", (req, res) => {
-        // notes.push(req.body);
-        // res.json(notes);
+        let createNewNote = req.body;
+        createNewNote.id.uuidv4();
+        notes.push(createNewNote);
+        db.writeData(notes);
+        return res.json(notes);
+        console.log("new note!")
+    });
+
+    app.delete("/api/notes/:id", (req, res) => {
+        const notes = db.readData();
+        const notesFilter = notes.filter
+        db.writeData(notesFilter);
+        return res.json(notesFilter);
     });
 
     // app.listen(PORT, () => {
     //     console.log(`Server is running on http://localhost:${PORT}`);
-    // });
+    // })
+
 }
