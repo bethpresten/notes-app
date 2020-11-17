@@ -3,7 +3,6 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const path = require("path");
 const fs = require("fs");
-const dbFile = require('./db/db.json')
 const { v4: uuidv4 } = require("uuid");
 const notes = [];
 
@@ -12,16 +11,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // static middleware
-app.use(express.static("/public"));
+app.use(express.static("public"));
 
 
 // html routes 
 app.get("/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/views/notes.html"));
+    res.sendFile(path.join(__dirname, "/public/views/notes.html"));
 });
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/views/index.html"));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "/public/views/index.html"));
 });
 
 app.listen(PORT, () => {
@@ -29,15 +28,15 @@ app.listen(PORT, () => {
 });
 
 // API ROUTES/
-// app.get("/api/config", (req, res) => {
-//     res.json({
-//         success: true,
-//     });
-// });
+app.get("/api/config", (req, res) => {
+    return res.json({
+        success: true,
+    });
+});
 
-// app.get("/api/notes", (req, res) => {
-//     return res.json(JSON.parse(fs.readFileSync(path.join(__dirname, '../../db/db.json'))));
-// });
+app.get("/api/notes", (req, res) => {
+    return res.json(JSON.parse(fs.readFileSync(path.join(__dirname, "./db/db.json"))));
+});
 
 
 // app.get('/api/notes/:id', function (req, res) {
@@ -54,11 +53,11 @@ app.listen(PORT, () => {
 //     let createNewNote = req.body;
 //     createNewNote.id = uuidv4();
 
-//     const dbFile = JSON.parse(fs.readFileSync(path.join(__dirname, '../../db/db.json')));
+//     const dbFile = JSON.parse(fs.readFileSync(path.join(__dirname, './db/db.json')));
 
 //     createNewNote.id = uuidv4();
 //     // notes.push(createNewNote);
-//     fs.writeFileSync(path.join(__dirname, "db/db.json"), JSON.stringify(notes));
+//     fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(notes));
 //     console.log("new note!");
 //     res.json({
 //         isError: false,
