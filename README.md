@@ -4,7 +4,6 @@ Table of Contents
 
 - [Description](#description)
 - [Github Repository](#githubRepo)
-- [Github Deployed Site](#homepage)
 - [Author](#author)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -15,15 +14,11 @@ Table of Contents
 
 ### Description
 
-This platform is for users who need to create a README Generator for their code. It's a user-friendly interface that utilizes Node from the command line in their terminal.
+This application is designed for note taking purposes. It utilizes express.js and jQuery. You can view the full app from: https://murmuring-earth-24466.herokuapp.com/notes
 
 ### Github Repository
 
-https://github.com/bethpresten/readmegenerator
-
-### Github Site
-
-https://bethpresten.github.io/readmegenerator/
+https://github.com/bethpresten/notes-app
 
 ### Author
 
@@ -31,18 +26,14 @@ Beth Presten, Ed.S.
 
 ### Installation
 
-The code can be found on the following site:
+The code can be found on the following site. Clone the repo. All the server-side information is located on the server.js file:
 https://bethpresten.github.io/readmegenerator/
 
 ### Usage
 
-![readmedemo](assets/ReadMe-Generator.gif)
+![notesappdemo](public/assets/css/images/deployed-notes.gif)
 
-The code uses inquirer, fs, index.js, and node.js. The user runs Node from their command line using the command "node index.js" when in their designated folder. The code should be copied from my github pages in the above link.
-
-### Test Instructions
-
-n/a
+In the app, click on "Get Started" on the homepage. Notes are titled and more details can be put on the paragraph section. Click the save button when the note is complete. The titles allow for easy-accessibility.
 
 ### Contributors
 
