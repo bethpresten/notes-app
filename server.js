@@ -1,10 +1,14 @@
+// require express and calling express
 const express = require("express");
 const app = express();
+// creating a PORT
 const PORT = process.env.PORT || 8080;
+// requiring path and fs
 const path = require("path");
 const fs = require("fs");
+// requiring uuid for the unique id package
 const { v4: uuidv4 } = require("uuid");
-const notes = [];
+const notesArray = [];
 
 // dynamic middleware 
 app.use(express.urlencoded({ extended: true }));
@@ -14,11 +18,12 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
-// html routes 
+// html routes / notes route
 app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "/public/views/notes.html"));
 });
 
+// html route for the catch all or the index in this app
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "/public/views/index.html"));
 });
@@ -35,7 +40,7 @@ app.get("/api/config", (req, res) => {
     });
 });
 
-// resource for the notes file
+// resource for the notes file/ api call
 app.get("/api/notes", (req, res) => {
     return res.json(JSON.parse(fs.readFileSync(path.join(__dirname, "/db/db.json"))));
 });
@@ -69,7 +74,7 @@ app.delete("/api/notes/:id", (req, res) => {
     // filtering the individual notes' id
     let deleteNote = notesToDelete.filter(note => note.id != id);
     // identifying the specific id to delete the note
-    deleteNote.forEach(element => element.id = deleteNote.indexOf(element));
+    deleteNote.filter(element => element.id = deleteNote.indexOf(element));
     // notesToDelete.splice(id, deleteNote)
     // re-writing the file with the deleted note
     fs.writeFileSync("./db/db.json", JSON.stringify(deleteNote));
