@@ -6,7 +6,7 @@ const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 const notes = [];
 
-// middleware 
+// dynamic middleware 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -28,53 +28,54 @@ app.listen(PORT, () => {
 });
 
 // API ROUTES/
+// test api route
 app.get("/api/config", (req, res) => {
     return res.json({
         success: true,
     });
 });
 
+// resource for the notes file
 app.get("/api/notes", (req, res) => {
-    return res.json(JSON.parse(fs.readFileSync(path.join(__dirname, "./db/db.json"))));
+    return res.json(JSON.parse(fs.readFileSync(path.join(__dirname, "/db/db.json"))));
+});
+
+// post
+app.post("/api/notes", (req, res) => {
+    // create a variable to hold the parameters
+    let createNewNote = req.body;
+    // returning a random id number
+    createNewNote.id = uuidv4();
+    // reading the file
+    const notes = JSON.parse(fs.readFileSync(path.join(__dirname, './db/db.json')));
+    // pushing the new note 
+    notes.push(createNewNote);
+    // notes.push(createNewNote);
+    // writing the new db.json file
+    fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(notes));
+    // console.log("new note!");
+    // responding to the newly written file
+    return res.json(notes);
 });
 
 
-// app.get('/api/notes/:id', function (req, res) {
-//     var notes = req.params.notes;
-//     console.log(notes);
-//     for (let i = 0; i < notes.length; i++) {
-//         if (notes === notes[i].routeName) {
-//             return res.json(notes[i]);
-//         }
-//     }
-// });
-
-// app.post("/api/notes", (req, res) => {
-//     let createNewNote = req.body;
-//     createNewNote.id = uuidv4();
-
-//     const dbFile = JSON.parse(fs.readFileSync(path.join(__dirname, './db/db.json')));
-
-//     createNewNote.id = uuidv4();
-//     // notes.push(createNewNote);
-//     fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(notes));
-//     console.log("new note!");
-//     res.json({
-//         isError: false,
-//         message: "Your note has been saved.",
-//         port: PORT,
-//         status: 200,
-//         success: true
-//     });
-// });
-
-// app.delete("/api/notes/:id", (req, res) => {
-//     let id = parseInt(req.params.id);
-//     let deleteNote = notesArray.filter(item => item.id != id);
-
-//     deleteNote.forEach(element => element.id = deleteNote.indexOf(element));
-
-// });
+// targeting the specific note to the delete (this was hard!!!!)
+app.delete("/api/notes/:id", (req, res) => {
+    // identifying the id through the params
+    let id = parseInt(req.params.id);
+    // console.log(id);
+    // identifying a variable to the reading the db.json
+    const notesToDelete = JSON.parse(fs.readFileSync(path.join(__dirname, './db/db.json')));
+    // filtering the individual notes' id
+    let deleteNote = notesToDelete.filter(note => note.id != id);
+    // identifying the specific id to delete the note
+    deleteNote.forEach(element => element.id = deleteNote.indexOf(element));
+    // notesToDelete.splice(id, deleteNote)
+    // re-writing the file with the deleted note
+    fs.writeFileSync("./db/db.json", JSON.stringify(deleteNote));
+    // returning the response
+    return res.json(notesToDelete);
+});
 
 
 
