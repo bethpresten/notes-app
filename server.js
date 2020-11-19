@@ -45,6 +45,10 @@ app.get("/api/notes", (req, res) => {
     return res.json(JSON.parse(fs.readFileSync(path.join(__dirname, "/db/db.json"))));
 });
 
+app.get("/api/notes:id", (req, res) => {
+    res.json(data, req.params.id);
+})
+
 // post
 app.post("/api/notes", (req, res) => {
     // create a variable to hold the parameters
