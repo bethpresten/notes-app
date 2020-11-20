@@ -72,19 +72,12 @@ app.post("/api/notes", (req, res) => {
 app.delete("/api/notes/:id", (req, res) => {
     // identifying the id through the params
     let id = parseInt(req.params.id);
-    // console.log(id);
-    // identifying a variable to the reading the db.json
-    const notesToDelete = JSON.parse(fs.readFileSync(path.join(__dirname, './db/db.json')));
-    // filtering the individual notes' id
-    let deleteNote = notesToDelete.filter(note => note.id != id);
-    // identifying the specific id to delete the note
-    deleteNote.filter(element => element.id = deleteNote.indexOf(element));
-    // notesToDelete.splice(id, deleteNote)
-    // re-writing the file with the deleted note
-    fs.writeFileSync("./db/db.json", JSON.stringify(deleteNote));
-    // returning the response
-    return res.json(notesToDelete);
+    // getting the array of notes from the json file
+    const theNotes = JSON.parse(fs.readFileSync(path.join(__dirname, './db/db.json')));
+    // filtering out any notes that are note the one we want to delete
+    let notesNotToDelete = theNotes.filter(note => note.id !== id);
+    // re-writing the file without the deleted note
+    fs.writeFileSync("./db/db.json", JSON.stringify(notesNotToDelete));
+    // returning a response
+    return res.json(notesNotToDelete);
 });
-
-
-
